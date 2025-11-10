@@ -1,0 +1,9 @@
+hr {
+  border: none !important;
+  border-top: 2px dashed red !important;
+  margin: 20px 0 !important;
+  height: 0 !important;
+}
+iframe {
+  max-width: 100% !important;
+}

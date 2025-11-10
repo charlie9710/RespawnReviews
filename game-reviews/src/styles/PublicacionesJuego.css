@@ -1,0 +1,7 @@
+p {
+  max-width: 100% !important;
+  display: block;
+  height: auto; /* que crezca según contenido */
+  overflow: visible; /* no ocultes el texto */
+  word-wrap: break-word;
+}

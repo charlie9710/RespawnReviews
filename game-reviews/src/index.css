@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background: #a41023;
+}
+
+.list-with-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.list-with-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+.fuente-posts-regular {
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.fuente-posts-bold {
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.protected-content img,
+.protected-content iframe {
+  @apply w-80 h-40 rounded-lg mb-2;
+}
+
+.protected-content > * {
+  @apply mb-2;
+}
+
+@media (min-width: 768px) {
+  .protected-content img,
+  .protected-content iframe {
+    @apply w-120 h-60 rounded-lg mb-2;
+  }
+
+  .protected-content > * {
+    @apply mb-2;
+  }
+}
+
+@media (min-width: 1440px) {
+  .protected-content img,
+  .protected-content iframe {
+    @apply w-160 h-80 rounded-lg mb-2;
+  }
+
+  .protected-content > * {
+    @apply mb-2;
+  }
+}
