@@ -4,7 +4,7 @@ Respawn Reviews es un proyecto diseñado como una red social en la cual los usua
 además de distintas funcionalidades como ratings para cada videojuego creado por los usuarios o comentarios para cada publicación.
 
 Version: 1.0
-## Objetivo del projecto:
+## Objetivo del proyecto:
 * Tener una plataforma de videojuegos democrática en la cuál los usuarios den puntuación y publiquen contenido de videojuegos sin la influencia de compañias ni de terceros.
 
 ## Características principales:
@@ -42,16 +42,45 @@ Front end:
 
 A continuación se muestra el modelo entidad-relación de la base de datos:
 
-![Modelo Entidad-Relación] <img width="1181" height="702" alt="image" src="https://github.com/user-attachments/assets/6aab5ca4-a446-41fd-ac8b-f0e7d0730874" />
+<img width="1181" height="702" alt="image" src="https://github.com/user-attachments/assets/6aab5ca4-a446-41fd-ac8b-f0e7d0730874" />
 
+```
+## Estructura del proyecto
+respawnReviews/
+├── src/
+│   └── main/java/com/rr/respawnReviews
+│       ├── Auth          (Módulo de autenticación)
+│       ├── config        (Módulo de configuración)
+│       ├── controller    (Módulo de controladores)
+│       ├── dto           (Módulo de Data Transfer Objects)
+│       ├── exceptions    (Módulo de excepciones)
+│       ├── model         (Módulo de modelos)
+│       ├── repository    (Módulo de repositorio)
+│       └── service       (Módulo de servicios)
 
+game-reviews/
+├── src/
+│   ├── api        (Módulo de llamadas a APIs)
+│   ├── assets     (Módulo de assets)
+│   ├── components (Módulo de componentes)
+│   ├── context    (Módulo de contexto)
+│   ├── pages      (Módulo de páginas)
+│   ├── static     (Módulo de archivos estáticos)
+│   └── style      (Módulo de estilos CSS)
 
+```
 ## Requisitos previos
 
 * Tener instalado maven
 * Tener instalado node.js (24.1.11) LTS.
 * Tener instalado JDK version 21.
 * Tener instalado git.
+
+## Endpoints de la API
+Los endpoints de la API están documentados automáticamente usando Swagger.
+Puedes acceder a la documentación completa en tiempo real aquí:
+
+http://localhost:8080/swagger-ui/index.html
 
 
 ## Instalación
