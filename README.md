@@ -24,7 +24,7 @@ Back end:
 * Spring security
 * H2 database
 * Spring dotenv
-* Jason web token 
+* Jason Web Token (JWT)
 * Google api client
 * Lombok
 * Maven
@@ -33,9 +33,9 @@ Back end:
 Front end:
 * HTML
 * CSS
-* Typescrypt
+* TypeScript
 * React.js
-* Taliwind/css
+* Tailwind/css
 * TipTap
 
 ## Arquitectura de la Base de Datos
@@ -69,12 +69,6 @@ game-reviews/
 │   └── style      (Módulo de estilos CSS)
 
 ```
-## Requisitos previos
-
-* Tener instalado maven
-* Tener instalado node.js (24.1.11) LTS.
-* Tener instalado JDK version 21.
-* Tener instalado git.
 
 ## Endpoints de la API
 Los endpoints de la API están documentados automáticamente usando Swagger.
@@ -82,13 +76,34 @@ Puedes acceder a la documentación completa en tiempo real aquí:
 
 http://localhost:8080/swagger-ui/index.html
 
+## Requisitos previos
+
+* Tener instalado maven
+* Tener instalado node.js (24.1.11) LTS.
+* Tener instalado JDK version 21.
+* Tener instalado git.
+
 
 ## Instalación
 
 * Trae el proyecto abriendo la terminal con el comando git clone https://github.com/charlie9710/RespawnReviews.git y el proyecto se va a descargar en la carpeta en la cuál estes posicionado.
 * Abre en una terminal el proyecto game-reviews , instala las dependencias con npm install y luego ejecuta el proyecto con npm run dev.
-* Abre en una terminal el proyecto respawnReviews, entra a respawnReviews, instala las dependencias con mvn clean install y luego ejecuta el projecto con mvn spring:boot-run.
+* Abre en una terminal el proyecto respawnReviews, entra a respawnReviews, instala las dependencias con mvn clean install y luego ejecuta el proyecto con mvn spring-boot:run.
 * Ve a http://localhost:5173/ para usar la plataforma.
+
+## Variables de entorno necesarias
+Crea un archivo env y utiliza las variables de entorno de .env.template:
+
+
+Back End:
+* **GOOGLE_CLIENT_ID**: ID de cliente de Google OAuth 2.0 para permitir el inicio de sesión con Google. Obtén esta clave desde [Google Cloud Console](https://console.cloud.google.com/).
+* **SECRET_KEY_JWT**: Clave secreta para firmar y verificar los tokens JWT de autenticación. Genera una cadena aleatoria segura de al menos 32 caracteres.
+
+ Front End:
+* **VITE_APP_RAWG_API_KEY**: API key de [RAWG Video Games Database](https://rawg.io/apidocs) para obtener información y datos de videojuegos.
+* **VITE_NEWS_API_KEY**: API key de [News API](https://newsapi.org/) para mostrar noticias actualizadas sobre videojuegos.
+* **VITE_GOOGLE_CLIENT_ID**: ID de cliente de Google OAuth 2.0 (el mismo que en el backend) para la autenticación desde el frontend.
+
 
 ## Uso básico
 
@@ -101,6 +116,17 @@ http://localhost:8080/swagger-ui/index.html
 
 * Puedes revisar la publicacion: <img width="1300" height="800" alt="image" src="https://github.com/user-attachments/assets/ce54d45d-d4ae-4b6d-a5b1-972ba2a2e00f" /> <img width="1300" height="909" alt="image" src="https://github.com/user-attachments/assets/0963eb4c-12ed-4867-8660-e8f9c0f225c7" />
 * También puedes dejar comentarios a las publicaciones: <img width="1000" height="260" alt="image" src="https://github.com/user-attachments/assets/677836cc-f718-4a75-9883-9a9a60e4edb1" />
+
+## Estado del Proyecto
+
+🚧 **En desarrollo activo**
+- ✅ Funcionalidades core implementadas
+- 🔄 Tests en progreso
+  
+## Próximas Características
+- 💬 Chats entre usuarios
+- ⭐ Mejoras en el sistema de ratings a los comentarios
+- 👥 Seguimiento de usuarios (followers)
 
 
 Licencia: MIT
