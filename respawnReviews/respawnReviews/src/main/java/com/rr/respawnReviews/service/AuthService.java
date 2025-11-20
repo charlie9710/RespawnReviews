@@ -1,5 +1,6 @@
 package com.rr.respawnReviews.service;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,8 +14,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +33,7 @@ import com.rr.respawnReviews.Auth.AuthResponse;
 import com.rr.respawnReviews.Auth.LoginRequest;
 import com.rr.respawnReviews.Auth.RegisterRequest;
 import com.rr.respawnReviews.exceptions.InvalidTokenException;
+import com.rr.respawnReviews.exceptions.UserFoundException;
 import com.rr.respawnReviews.model.RoleEntity;
 import com.rr.respawnReviews.model.RoleEnum;
 import com.rr.respawnReviews.model.User;
@@ -58,25 +65,29 @@ public class AuthService {
 
 
 
-  public AuthResponse login(LoginRequest request) {
-    Optional<User> user = userRepository.findUserByUsername(request.getUsername());
-    Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
-    System.out.println("Authentication successful for user: " + auth.getName());
+    public AuthResponse login(LoginRequest request) throws AuthenticationException,BadCredentialsException,DisabledException,LockedException{
+        User user = userRepository.findUserByUsername(request.getUsername())
+        .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-    return AuthResponse.builder()
-        .token(jwtService.getToken(user.orElse(null)))
+        Authentication auth = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                request.getUsername(), 
+                request.getPassword()
+            )
+        );
+        System.out.println("Usuario autenticado: " +  auth.getName());
+        return AuthResponse.builder()
+        .token(jwtService.getToken(user))
         .build();
-  }
+    }
 
     public AuthResponse register(
-            String username,
-            String name,
-            MultipartFile imageFile,
-            String email,
-            String password,
-            String phone_number) {
+        String username,
+        String name,
+        MultipartFile imageFile,
+        String email,
+        String password,
+        String phone_number) throws IOException, DataIntegrityViolationException {
 
         try {
 
@@ -85,6 +96,19 @@ public class AuthService {
             request.setName(name);
             request.setEmail(email);
             request.setPassword(passwordEncoder.encode(password));
+
+            Optional<User> userWithUsername = userRepository.findUserByUsername(username);
+
+            if(userWithUsername.isPresent()){
+                throw new UserFoundException("Nombre de usuario ya esta ocupado");
+            }
+
+            Optional<User> userWithEmail = userRepository.findByEmail(email);
+
+            if(userWithEmail.isPresent()){
+                throw new UserFoundException("Email ya esta registrado");
+            }
+
 
             if (phone_number != null && !phone_number.isBlank()) {
                 request.setPhone_number(Long.valueOf(phone_number));
@@ -124,11 +148,8 @@ public class AuthService {
                     .token(jwtService.getToken(user))
                     .build();
 
-        } catch (DataIntegrityViolationException e) {
-            throw e;
-        } catch (Exception e) {
-            
-            throw new RuntimeException("Error durante el registro", e);
+        } catch (UserFoundException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
         }
     }
 

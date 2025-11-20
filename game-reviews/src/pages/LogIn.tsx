@@ -2,12 +2,15 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useState } from "react";
 import GoogleLoginComponent from "../components/GoogleLoginComponent";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function LogIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const { login } = useAuth();
 
   const [mensaje, setMensaje] = useState("");
 
@@ -34,9 +37,12 @@ export default function LogIn() {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        login(result.token);
         navigate("/");
       } else {
-        setMensaje("Error al iniciar sesión");
+        const result = await response.json();
+        setMensaje(result.Error);
         setIsOpen(true);
       }
     } catch (error) {

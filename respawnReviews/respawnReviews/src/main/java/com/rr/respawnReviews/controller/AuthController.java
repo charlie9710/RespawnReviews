@@ -1,5 +1,6 @@
 package com.rr.respawnReviews.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.BadCredentialsException;
-
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,18 +39,24 @@ public class AuthController {
 
 
   @PostMapping("/login")
-  public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+  public ResponseEntity<?> login(@RequestBody LoginRequest request) {
 
     try {
       AuthResponse response = authService.login(request);
       return ResponseEntity.ok(response);
     } catch (BadCredentialsException e) {
-      return ResponseEntity.status(401).build();
+      return ResponseEntity.status(401).body(Map.of("Error", "Credenciales Inválidas"));
+    } catch (DisabledException e) {
+      return ResponseEntity.status(401).body(Map.of("Error", "Usuario desabilitado"));
+    } catch (LockedException e) {
+        return ResponseEntity.status(401).body(Map.of("Error", "Usuario bloqueado"));
+    } catch (AuthenticationException e) {
+        return ResponseEntity.status(401).body(Map.of("Error", "El usuaruo no existe"));
     }
   }
   
   @PostMapping("/register")
-  public ResponseEntity<AuthResponse> register(@RequestParam("username") String username,
+  public ResponseEntity<?> register(@RequestParam("username") String username,
             @RequestParam("name") String name,
             @RequestParam(value = "avatarUrl", required = false) MultipartFile imageFile,
             @RequestParam("email") String email,
@@ -58,7 +67,9 @@ public class AuthController {
       AuthResponse response = authService.register(username,name,imageFile,email,password,phone_number);
       return ResponseEntity.ok(response);
     } catch (DataIntegrityViolationException e) {
-      return ResponseEntity.status(409).build();
+      return ResponseEntity.status(409).body(e.getMessage());
+    }catch(IOException e){
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar el archivo" + e.getMessage());
     }
   }
   @PostMapping("/google")

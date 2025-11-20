@@ -20,10 +20,10 @@ export default function Home() {
 
   return (
     <React.Fragment>
-      <ul className=" mx-8 md:mx-56 lg:mx-96 bg-red-900 py-8 my-8 rounded-lg">
+      <ul className=" mx-8 md:mx-40 lg:mx-56 xl:mx-96 bg-red-900 py-8 my-8 rounded-lg">
         {news.map((noticia) => (
           <li
-            key={noticia.id}
+            key={noticia.url + noticia.title}
             className="flex flex-col items-center mt-8 text-center mx-10"
           >
             <a

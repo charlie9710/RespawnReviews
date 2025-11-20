@@ -92,7 +92,8 @@ export default function Register() {
       });
 
       if (!response.ok) {
-        throw new Error("Error al crear un nuevo usuario");
+        const error = await response.text();
+        throw new Error(error);
       } else {
         setUsername("");
         setPassword("");
@@ -104,7 +105,7 @@ export default function Register() {
         navigate("/");
       }
     } catch (error) {
-      setMensaje("Error al crear un usuario, intenta denuevo.");
+      setMensaje(error instanceof Error ? error.message : String(error));
       setIsOpen(true);
     }
   };

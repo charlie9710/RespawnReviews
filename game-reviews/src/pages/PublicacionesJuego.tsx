@@ -181,7 +181,7 @@ export default function GameReviews() {
       {userAuthenthicated ? (
         scoreStatic === 0 ? (
           <div className="flex flex-col items-center mb-2">
-            <div className="border-solid border-rose-600 border-1 rounded-2xl p-2">
+            <div className=" p-2">
               <p className="text-white mb-2 text-sm font-light">
                 No hay calificación
               </p>
@@ -206,7 +206,7 @@ export default function GameReviews() {
           </div>
         ) : (
           <div className="flex flex-col items-center w-full mb-2">
-            <div className="border-solid border-rose-600 border-1 rounded-2xl p-2">
+            <div className=" p-2">
               <h1 className="text-white mb-2 text-sm font-light">
                 Tu calificación: {scoreStatic}
               </h1>

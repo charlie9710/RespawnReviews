@@ -4,6 +4,8 @@ import Button from "../components/Button";
 import { getUserFromToken } from "../contexts/JwtContext";
 import { Link } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+
 interface Usuario {
   id?: number;
   username: string;
@@ -36,6 +38,8 @@ export default function Perfil() {
   const [isOpen, setIsOpen] = useState(false);
 
   const [mensaje, setMensaje] = useState("");
+
+  const navigate = useNavigate();
 
   const formateo = (format: string) => {
     const isoString = format;
@@ -143,7 +147,10 @@ export default function Perfil() {
       .then((data) => {
         setUsuario(data);
         setEditando(false);
+        setMensaje("Perfil actualizado");
+        setIsOpen(true);
         localStorage.setItem("token", data.token);
+        navigate("/");
       })
       .catch((error) => console.error(error));
   };
