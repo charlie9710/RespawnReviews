@@ -24,16 +24,23 @@ import com.rr.respawnReviews.model.Post;
 
 import com.rr.respawnReviews.service.PostService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/posts")
+@Tag(name = "Posts", description = "Operaciones relacionadas con posts")
 public class PostController {
     @Autowired
     private PostService postService;
 
-
+    @Operation(
+    summary = "Crear un post",
+    description = "Este endpoint permite crear un post de un videojuego, ya sea de análisis , reseña o curiosidad."
+    )
     @PostMapping
     public ResponseEntity<?> createPost(
             @RequestParam("title") String title,
@@ -65,6 +72,10 @@ public class PostController {
         }
     }
 
+    @Operation(
+        summary = "Obtener un post",
+        description = "Este endpoint permite obtener un post por su id."
+    )
     @GetMapping("/{id}")
     public ResponseEntity<?> getPost(@PathVariable Long id){
         try {
@@ -78,6 +89,10 @@ public class PostController {
         }
     }
 
+    @Operation(
+        summary = "Obtener un post con su tipo y juego",
+        description = "Este endpoint permite obtener un post introduciendo su tipo y su id de juego."
+    )
     @GetMapping("/{gameId}/{type}")
     public ResponseEntity<?> getAllPostsByType(@PathVariable String type, @PathVariable Long gameId){
 
@@ -94,6 +109,10 @@ public class PostController {
 
     }
 
+    @Operation(
+    summary = "Obtener todos los usuarios mediante el id de usuario.",
+    description = "Este endpoint permite crear una reseña sobre un videojuego, incluyendo título, contenido y rating."
+)
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getAllPostByUser(@PathVariable Long id){
         try {

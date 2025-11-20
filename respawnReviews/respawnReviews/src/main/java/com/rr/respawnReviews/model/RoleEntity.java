@@ -27,6 +27,13 @@ public class RoleEntity {
   @Enumerated(EnumType.STRING)
   private RoleEnum roleName;
 
+  @ManyToMany(cascade = CascadeType.ALL, fetch = jakarta.persistence.FetchType.EAGER)
+    @JoinTable(
+      name = "role_permissions", joinColumns = @jakarta.persistence.JoinColumn(name = "role_id"),
+      inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "permission_id")
+    )
+  private Set<PermissionEntity> permissionsList = new HashSet<>();
+
   public RoleEntity() {
   }
 
@@ -50,13 +57,6 @@ public class RoleEntity {
   public void setRoleName(RoleEnum roleName) {
     this.roleName = roleName;
   }
-
-  @ManyToMany(cascade = CascadeType.ALL, fetch = jakarta.persistence.FetchType.EAGER)
-    @JoinTable(
-      name = "role_permissions", joinColumns = @jakarta.persistence.JoinColumn(name = "role_id"),
-      inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "permission_id")
-    )
-  private Set<PermissionEntity> permissionsList = new HashSet<>();
 
 
 

@@ -127,9 +127,5 @@ public class Post {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
-    } 
-    
-    
-
-    
+    }  
 }

@@ -28,16 +28,23 @@ import com.rr.respawnReviews.exceptions.InvalidTokenException;
 
 import com.rr.respawnReviews.service.AuthService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Auth", description = "Operaciones relacionadas con autenticacion")
 public class AuthController {
 
   @Autowired
   private AuthService authService;
 
-
+  @Operation(
+    summary = "Login",
+    description = "Este endpoint permite autenticarse en el sistema."
+  )
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody LoginRequest request) {
 
@@ -54,7 +61,10 @@ public class AuthController {
         return ResponseEntity.status(401).body(Map.of("Error", "El usuaruo no existe"));
     }
   }
-  
+  @Operation(
+    summary = "Register",
+    description = "Este endpoint sirve para registrarse en el sistema."
+  )
   @PostMapping("/register")
   public ResponseEntity<?> register(@RequestParam("username") String username,
             @RequestParam("name") String name,
@@ -72,6 +82,10 @@ public class AuthController {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar el archivo" + e.getMessage());
     }
   }
+  @Operation(
+    summary = "Google Login",
+    description = "Este endpoint permite autenticarse en el sistema con google."
+  )
   @PostMapping("/google")
   public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) {
      

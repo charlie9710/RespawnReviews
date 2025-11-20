@@ -22,6 +22,9 @@ import com.rr.respawnReviews.exceptions.NoCommentFoundException;
 import com.rr.respawnReviews.model.Comment;
 import com.rr.respawnReviews.service.CommentService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -31,9 +34,12 @@ public class CommentController {
   @Autowired
   private CommentService commentService;
 
-
+  @Operation(
+    summary = "Crear un comentario",
+    description = "Este endpoint permite crear un comentario en un videojuego."
+)
   @PostMapping
-  private ResponseEntity<Comment> createPost(@RequestBody Comment comment){
+  private ResponseEntity<Comment> createComment(@RequestBody Comment comment){
     try {
       Comment comentario = commentService.createComment(comment);
       return ResponseEntity.ok(comentario);
@@ -44,8 +50,12 @@ public class CommentController {
     }
 
   }
-
+  @Operation(
+    summary = "Obtener comentarios",
+    description = "Este endpoint permite obtener los comentarios de un post."
+  )
   @GetMapping("/{id}")
+  @Tag(name = "Commments", description = "Operaciones relacionadas con comentarios")
   private ResponseEntity<?> getComments(@PathVariable Long id){
 
     try {

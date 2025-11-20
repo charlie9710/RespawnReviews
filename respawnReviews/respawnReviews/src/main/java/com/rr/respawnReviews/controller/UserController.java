@@ -27,9 +27,13 @@ import com.rr.respawnReviews.model.User;
 
 import com.rr.respawnReviews.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "Users", description = "Operaciones relacionadas con usuarios")
 public class UserController {
 
 
@@ -39,7 +43,10 @@ public class UserController {
 
 
 
-
+    @Operation(
+    summary = "Obtener un usuario",
+    description = "Este endpoint sirve para obtener un usuario."
+)
     @GetMapping("/{id}")
     public ResponseEntity<?> GetUser(@PathVariable Long id){
 
@@ -54,6 +61,10 @@ public class UserController {
         }
     }
 
+    @Operation(
+    summary = "Actualizazr un usuario",
+    description = "Este endpoint permite actualizar un usuario."
+)
     @PatchMapping("/{id}")
     public ResponseEntity<Map<String,String>> updateUser(
             @PathVariable Long id,
